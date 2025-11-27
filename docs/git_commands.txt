@@ -1,3 +1,6 @@
+Start the app - npm run dev
+Clear local cache - localStorage.clear()
+
 git status
 git add .
 git commit -m "message"

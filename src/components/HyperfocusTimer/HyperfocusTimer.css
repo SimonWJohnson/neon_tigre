@@ -172,6 +172,45 @@
 /*}
 */
 
+/* ⚡ Flash impact when slash begins */
+.hyperfocus-shell--claw::after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 107, 203, 0.4),
+        rgba(0, 0, 0, 0)
+    );
+
+    opacity: 0;
+    z-index: 15;
+    animation: clawImpact 0.35s ease-out forwards;
+}
+
+@keyframes clawImpact {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.4);
+    }
+    20% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+}
+
+
 
 /* Breathing circle while hunting */
 .hyperfocus-shell--breathing::before{
@@ -251,7 +290,10 @@
     position: absolute;
     width: 260px;
     height: 18px;
+    top: 50%;
+    left: 50%;
 
+    /* Bright neon slash */
     background: linear-gradient(
         90deg,
         rgba(255, 255, 255, 0),
@@ -265,7 +307,8 @@
     border-radius: 999px;
 
     /* MAKE IT ALWAYS VISIBLE */
-    opacity: 1 !important;
+    /* opacity: 1 !important; */
+    opacity: 0;
 
     /* KEEP IT ABOVE THE AURA */
     z-index: 20;
@@ -277,11 +320,12 @@
         0 0 60px rgba(123, 47, 255, 1);
 
     /* NO ANIMATION */
-    animation: none !important;
+    /* animation: none !important; */
+    animation: tigreClawSlash 0.55s ease-out forwards;
 }
 
 
-@keyframes tigreClawSlash {
+/* @keyframes tigreClawSlash {
     0% {
         opacity: 0;
         transform: translate(-160%, -160%) rotate(-18deg) scaleX(0.7);
@@ -298,4 +342,52 @@
         opacity: 0;
         transform: translate(130%, 130%) rotate(-18deg) scaleX(0.8);
     }
+} */
+ /* 🩸 TIGRE SLASH MOTION */
+/* @keyframes tigreClawSlash {
+    0% {
+        opacity: 0;
+        transform: translate(-160%, -160%) rotate(-18deg) scaleX(0.7);
+        filter: drop-shadow(0 0 0px #ff006a);
+    }
+    25% {
+        opacity: 1;
+        transform: translate(-80%, -80%) rotate(-18deg) scaleX(1.05);
+        filter: drop-shadow(0 0 16px #ff2e5f);
+    }
+    60% {
+        opacity: 1;
+        transform: translate(40%, 40%) rotate(-18deg) scaleX(1.05);
+        filter: drop-shadow(0 0 26px #ff6bcb);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(130%, 130%) rotate(-18deg) scaleX(0.8);
+        filter: drop-shadow(0 0 0px #ff006a);
+    }
+} */
+
+/* 🩸 TIGRE SLASH MOTION – centred through the timer */
+@keyframes tigreClawSlash {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(-24deg) scaleX(0.2);
+        filter: drop-shadow(0 0 0px #ff006a);
+    }
+    25% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(-24deg) scaleX(1.05);
+        filter: drop-shadow(0 0 16px #ff2e5f);
+    }
+    60% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(-24deg) scaleX(1.05);
+        filter: drop-shadow(0 0 26px #ff6bcb);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(-24deg) scaleX(0.8);
+        filter: drop-shadow(0 0 0px #ff006a);
+    }
 }
+
