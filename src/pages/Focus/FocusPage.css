@@ -1,0 +1,25 @@
+/* ===============================
+   FOCUS PAGE — INITIAL STYLING
+   =============================== */
+
+.focus-container {
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    color: #f0f0f0;
+}
+
+/* Headings */
+.focus-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Stats */
+.focus-stats {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}

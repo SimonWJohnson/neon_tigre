@@ -1,0 +1,45 @@
+.fire-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 2; /* under numbers, over aura */
+}
+
+.fire-ring__progress {
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 0.25s linear;
+}
+
+/* 🔥 flicker while the timer is running */
+.fire-ring--active .fire-ring__progress {
+    animation: fireFlicker 0.35s infinite alternate;
+}
+
+/* 💀 subtle extinguished look when finished */
+.fire-ring--finished .fire-ring__progress {
+    animation: none;
+    opacity: 0.35;
+}
+
+/* @keyframes fireFlicker {
+    0% {
+        filter: drop-shadow(0 0 6px #ff2e5f);
+    }
+    100% {
+        filter: drop-shadow(0 0 18px #ff4500);
+    }
+} */
+@keyframes fireFlicker {
+    0% {
+        filter: drop-shadow(0 0 10px #ff6bcb);
+        stroke-width: 8;
+    }
+    100% {
+        filter: drop-shadow(0 0 24px #ffdd00);
+        stroke-width: 11;
+    }
+}

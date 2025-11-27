@@ -1,0 +1,272 @@
+    // Minutes selected by the user (Pomodoro-stlye)
+    //const [selectedMinutes, setSelectedMinutes] = useState(15);
+
+    // Remaining time in seconds
+    //const [remainingSeconds, setRemainingSeconds] = useState(selectedMinutes * 60);
+
+    // Is the timer currently running?
+    //const [isRunning, setIsRunning] = useState(false);
+
+    // If the user changes the preset while the timer is NOT running,
+    // keep the remaining time in sync with the selected minutes
+    //useEffect(() => {
+        //if(!isRunning){
+            //setRemainingSeconds(selectedMinutes * 60);
+        //}
+    //}, [selectedMinutes, isRunning]); 
+
+    // Main timer effect - only counts down
+    //useEffect(() => {
+        //if(!isRunning) return;
+
+        //const intervalId = setInterval(() => {
+            //setRemainingSeconds((prev) => {
+                // If we hit 0 or below, complete the session
+                //if(prev <= 1) {
+                    //clearInterval(intervalId);
+                    //handleSessionComplete();
+                    //return 0;
+                //}
+                //return prev - 1;
+            //});
+        //}, 1000);
+
+        // Cleanup when component unmounts or isRunning changes
+        //return () => clearInterval(intervalId);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    //}, [isRunning]); // logEvent & AppEventTypes are stable from context
+
+    // When the timer hits 0 *while running*, complete the focus session
+    /**
+     * The timer just ticks the number down
+     * When reamainingSeconds becomes 0 and isRunning is still true:
+     *  - This effect fires
+     *  - Calls handleSessionComplete()
+     *  - Which:
+     *      - sets isRunning(false)
+     *      - increments sessionCompleted
+     *      - calls logEvent(...) to hit your tail engine
+     * Because all of this happens from inside a useEffect, React considers it a 'post-render side effect', which is allowed
+     */
+    //useEffect(() => {
+        //if (!isRunning) return;
+        //if (remainingSeconds !== 0) return;
+
+        // Now it's safe to trun side effects:
+        //handleSessionComplete();
+    //}, [remainingSeconds, isRunning]);
+
+    /**
+     *  Test functionality
+     *  function handleTestComplete(){
+        // The 'meta' object can hold extra info if we want (e.g., task name)
+        // For now, we just tag it as coming from a 'test_button'
+        logEvent(AppEventTypes.FOCUS_SESSION_COMPLETED, {
+            source: 'test_button'
+        });
+    }
+     */
+         /**
+     * 
+     * @returns Buttons
+     */
+    // Start
+    //function handleStart(){
+        //if(isRunning) return;
+
+        // If the timer is at 0 (e.g., just finished), reset it to the full session
+        //if(remainingSeconds <= 0){
+            //setRemainingSeconds(selectedMinutes * 60);
+        //}
+        //setIsRunning(true);
+    //}
+
+    // Pause
+    //function handlePause(){
+        //setIsRunning(false);
+    //}
+
+    // Reset
+   //function handleReset(){
+        //setIsRunning(false);
+        //setRemainingSeconds(selectedMinutes * 60)
+    //}
+
+    /**
+     * Preset buttons call:
+     *  - triggerFocusToast() sets focusToast in the provider
+     *  - FocusLockedToast sees the message and animates the toast
+     * The provider auto-clears it after 5 seconds using the requisite useEffect()
+     * @param {} minutes 
+     * @returns 
+     */
+    //function handlePresetClick(minutes){
+        // If currently running, ignore preset clicks to avoid weird jumps
+       // if (isRunning) {
+            //triggerFocusToast("Presets locked while the Tigre is hunting...");
+            //return;
+       // }
+       // setSelectedMinutes(minutes);
+   // }
+
+    // Time formatter
+    //function formatTime(totalSeconds){
+        // Avoid weird decimal displays
+        //const clamped = Math.max(0, Math.floor(totalSeconds)); 
+        //const m = Math.floor(totalSeconds / 60);
+        //const m = Math.floor(clamped / 60);
+        //const s = totalSeconds % 60;
+        //const s = clamped % 60;
+        //const mm = String(m).padStart(2, "0");
+        //const ss = String(s).padStart(2, "0");
+       // return `${mm}:${ss}`;
+    //}
+
+    //const presets = [15, 20, 45];
+    //const isFinished = !isRunning && remainingSeconds === 0;
+
+    // Dev mode testing - 10s Test button
+    // function handleDevTenSecondTest(){
+    //     if (isRunning) return; // don't mess with an active hunt
+    //     setSelectedMinutes(0.1667); // ~10 seconds worth of minutes
+    //     setRemainingSeconds(2); // hard-set the countdown
+    // }
+
+        /*
+        <section>
+            <h2>Hyperfocus Engine</h2>
+            <p>The hunt begins here...</p>
+        </section>
+        */
+       /*
+        <section>
+            <h2>Hyperfocus Engine</h2>
+            <p>
+                This will become the full focus timer.
+                For now, click the button to simulate completing a focus session.
+            </p>
+            <button onClick={handleTestComplete}>
+                Simulate Focus Session Completed
+            </button>
+            <p>Do this 3 times, then visit the Tail page to see what unlocks 😉</p>
+       </section>
+       */
+                   {/** Preset Selector */}
+            <div className="focus-presets">
+                <p>Choose your hunt length...</p>
+                <div className="focus-preset-buttons">
+                    {presets.map((min) => 
+                        <button
+                        key={min}
+                        type="button"
+                        onClick={() => handlePresetClick(min)}
+                        className={"focus-preset-button" + 
+                            (selectedMinutes === min ? " selected" : "")
+                        }>
+                            {min} minutes
+                        </button>
+                    )}
+                </div>
+            </div>
+            {/* Timer display */}
+            <div className={"focus-timer-display" + 
+                (isFinished ? " focus-timer-finished" : "")}
+            >
+                {formatTime(remainingSeconds)}
+            </div>
+            {/* Controls */}
+            <div className="focus-controls">
+                {!isRunning && (
+                    <button type="button" onClick={handleStart} className="focus-btn">
+                        Start
+                    </button>
+                )}
+                {isRunning && (
+                    <button type="button" onClick={handlePause} className="focus-btn">
+                        Pause
+                    </button>
+                )}
+                <button type="button" onClick={handleReset} className="focus-btn">
+                    Reset
+                </button>
+                <button type="button" onClick={handleDevTenSecondTest}
+                    className="focus-btn">
+                    Dev: 10s Test
+                </button>
+            </div>
+
+/*****************************************************************************************/
+/* Presets */
+.focus-presets {
+    margin: 1rem 0;
+}
+
+.focus-presets p {
+    margin-bottom: 0.5rem;
+    opacity: 0.85;
+}
+
+.focus-presets-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.focus-preset-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+}
+
+.focus-preset-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.focus-preset-btn.selected {
+    border: 2px solid #ff6bcb;
+    background: rgba(255, 107, 203, 0.15);
+}
+
+/* Timer Display */
+.focus-timer-display {
+    font-size: 4rem;
+    margin: 1.5rem 0;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 107, 203, 0.45);
+}
+
+/* Controls */
+.focus-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.focus-btn {
+    padding: 0.6rem 1.4rem;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, #ff6bcb, #7b2fff);
+    transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.focus-btn:hover {
+    transform: translateY(-2px);
+}
+
+.focus-btn:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
